@@ -137,16 +137,22 @@ class RecipeCard extends HTMLElement {
       let roundedRating = Math.round(rating);
       if(roundedRating == 5) {
         ratingImgElem.setAttribute('src', 'assets/images/icons/5-star.svg');
+        ratingImgElem.setAttribute('alt', '5 stars');
       } else if (roundedRating == 4) {
         ratingImgElem.setAttribute('src', 'assets/images/icons/4-star.svg');
+        ratingImgElem.setAttribute('alt', '4 stars');
       } else if (roundedRating == 3) {
         ratingImgElem.setAttribute('src', 'assets/images/icons/3-star.svg');
+        ratingImgElem.setAttribute('alt', '3 stars');
       } else if (roundedRating == 2) {
         ratingImgElem.setAttribute('src', 'assets/images/icons/2-star.svg');
+        ratingImgElem.setAttribute('alt', '2 stars');
       } else if (roundedRating == 1) {
         ratingImgElem.setAttribute('src', 'assets/images/icons/1-star.svg');
+        ratingImgElem.setAttribute('alt', '1 stars');
       } else {
         ratingImgElem.setAttribute('src', 'assets/images/icons/0-star.svg');
+        ratingImgElem.setAttribute('alt', '0 stars');
       }
       ratingElem.appendChild(ratingImgElem);
       
@@ -160,7 +166,7 @@ class RecipeCard extends HTMLElement {
     card.appendChild(ratingElem);
       
     const timeElem = document.createElement('time');
-    timeElem.innerHTML = convertTime(searchForKey(data, 'prepTime'));
+    timeElem.innerHTML = convertTime(searchForKey(data, 'totalTime'));
     card.appendChild(timeElem);
 
     const ingredientElem = document.createElement('p');
