@@ -3,6 +3,8 @@ class RecipeCard extends HTMLElement {
     // Part 1 Expose - TODO
 
     // You'll want to attach the shadow DOM here
+    super();
+    var shadow = this.attachShadow({mode: 'open'});
   }
 
   set data(data) {
@@ -100,6 +102,71 @@ class RecipeCard extends HTMLElement {
     // created in the constructor()
 
     // Part 1 Expose - TODO
+
+    this.shadowRoot.append(styleElem);
+    this.shadowRoot.append(card);
+
+    const imgElem = document.createElement('img');
+    imgElem.setAttribute('src', searchForKey(data, 'thumbnailUrl'));
+    card.appendChild(imgElem);
+
+    const titleElem = document.createElement('p');
+    titleElem.setAttribute('class', 'title');
+    const aElem = document.createElement('a');
+    aElem.setAttribute('href', getUrl(data));
+    aElem.innerHTML = searchForKey(data, 'headline');
+    titleElem.appendChild(aElem);
+    card.appendChild(titleElem);
+
+    const orgElem = document.createElement('p');
+    orgElem.setAttribute('class', 'organization');
+    orgElem.innerHTML = getOrganization(data);
+    card.appendChild(orgElem);
+
+    const ratingElem = document.createElement('div');
+    ratingElem.setAttribute('class', 'rating');
+    
+    let ratingObj = searchForKey(data, 'aggregateRating');
+    const numRatingElem = document.createElement('span');
+    if(ratingObj) {
+      let rating = ratingObj['ratingValue'];
+      numRatingElem.innerHTML = rating;
+      ratingElem.appendChild(numRatingElem);
+
+      const ratingImgElem = document.createElement('img');
+      let roundedRating = Math.round(rating);
+      if(roundedRating == 5) {
+        ratingImgElem.setAttribute('src', 'assets/images/icons/5-star.svg');
+      } else if (roundedRating == 4) {
+        ratingImgElem.setAttribute('src', 'assets/images/icons/4-star.svg');
+      } else if (roundedRating == 3) {
+        ratingImgElem.setAttribute('src', 'assets/images/icons/3-star.svg');
+      } else if (roundedRating == 2) {
+        ratingImgElem.setAttribute('src', 'assets/images/icons/2-star.svg');
+      } else if (roundedRating == 1) {
+        ratingImgElem.setAttribute('src', 'assets/images/icons/1-star.svg');
+      } else {
+        ratingImgElem.setAttribute('src', 'assets/images/icons/0-star.svg');
+      }
+      ratingElem.appendChild(ratingImgElem);
+      
+      const totalRatingsElem = document.createElement('span');
+      totalRatingsElem.innerHTML = '(' + ratingObj['ratingCount'] + ')';
+      ratingElem.appendChild(totalRatingsElem);
+    } else {
+      numRatingElem.innerHTML = 'No Reviews';
+      ratingElem.appendChild(numRatingElem);
+    }
+    card.appendChild(ratingElem);
+      
+    const timeElem = document.createElement('time');
+    timeElem.innerHTML = convertTime(searchForKey(data, 'prepTime'));
+    card.appendChild(timeElem);
+
+    const ingredientElem = document.createElement('p');
+    ingredientElem.setAttribute('class', 'ingredients');
+    ingredientElem.innerHTML = createIngredientList(searchForKey(data, 'recipeIngredient'));
+    card.appendChild(ingredientElem);
   }
 }
 
